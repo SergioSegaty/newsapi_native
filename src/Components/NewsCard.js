@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, Image, Linking, Alert } from "react-native";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import News from "../Models/news";
 
 const NewsPhoto = styled.Image`
   margin: 5px 5px;
@@ -51,6 +52,13 @@ const Desc = styled.Text`
   text-align: center;
 `;
 
+
+/**
+ * It gets the props from Redux and the Article and saves it to the FavList.
+ * 
+ * @param {*} props 
+ * @param {News} article 
+ */
 const _handleFavClick = (props, article) => {
   Alert.alert(
     "Adicionar aos Favoritos?",
@@ -74,6 +82,11 @@ const _handleFavClick = (props, article) => {
   );
 };
 
+/**
+ * Redirects the click to the Article Url
+ * 
+ * @param {URL} url 
+ */
 const _handleRedirectClick = (url) => {
   Linking.openURL(url);
 };

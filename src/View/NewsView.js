@@ -41,26 +41,51 @@ const MenuView = styled.View`
   border-bottom-right-radius: 5px;
 `;
 
+
+/**
+ * Takes the query and fetches the getTop from NewsAPI.
+ * @param {String} query 
+ * @param {*} props 
+ */
 const _handleSelectChange = async (query, props) => {
   let newList = await newsAPI.getTop(query);
   console.log(newList);
   props.dispatch({ type: "update/top", items: newList });
 };
 
+
+/**
+ * Fetches the Favorited Articles list from Redux and shows it.
+ * @param {*} props 
+ */
 const _handleFavClick = (props) => {
   props.dispatch({type: 'select/fav'})
 }
 
+/**
+ * Takes the query and fetches the getAll from newsAPI.
+ * @param {String} query 
+ * @param {*} props 
+ */
 const _handleSearchInput = async (query, props) => {
   let newList = await newsAPI.getAll(query);
   props.dispatch({ type: "update/all", items: newList });
 };
 
+
+/**
+ * The first fetch it gets the default from getTop, Brazil.
+ * @param {*} props 
+ */
 const populateReducer = async (props) => {
   let newList = await newsAPI.getTop();
   props.dispatch({ type: "update/items", items: newList });
 };
 
+/**
+ * It render the card based on the Item(News) that is passed to it.
+ * @param {News} item 
+ */
 const cardRenderer = ({ item }) => <NewsCard article={item} />;
 
 function NewsView(props) {
