@@ -52,6 +52,12 @@ const Desc = styled.Text`
   text-align: center;
 `;
 
+const Date = styled.Text`
+  font-size:12px;
+  color: white;
+  text-align: right;
+`
+
 
 /**
  * It gets the props from Redux and the Article and saves it to the FavList.
@@ -92,9 +98,11 @@ const _handleRedirectClick = (url) => {
 };
 
 function NewsCard(props) {
+  console.log(props);
   return (
     <Background>
       <Title> {props.article.title} </Title>
+      <Date>{props.article.publishedAt}</Date>
       <NewsPhoto
         source={{
           uri: props.article.imageUrl,
