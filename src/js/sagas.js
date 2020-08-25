@@ -5,8 +5,7 @@ const newsAPI = new NewsAPI();
 
 function* fetchDefault(action) {
   try {
-    const newsList = yield call(newsAPI.getAll);
-    console.log(newsList);
+    const newsList = yield call(newsAPI.getTop);
     yield put({ type: "fetch/success", items: newsList });
   } catch (e) {
     yield put({ type: "fetch/failed", message: e.message });

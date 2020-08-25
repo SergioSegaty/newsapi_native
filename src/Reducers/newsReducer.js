@@ -48,7 +48,6 @@ export default function reducer(
         fav: favList,
       };
     case "fetch/success":
-      console.log(action.items);
       return {
         ...state,
         items: action.items,
