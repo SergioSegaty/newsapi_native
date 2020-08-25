@@ -98,7 +98,6 @@ const _handleRedirectClick = (url) => {
 };
 
 function NewsCard(props) {
-  console.log(props);
   return (
     <Background>
       <Title> {props.article.title} </Title>

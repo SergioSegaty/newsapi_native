@@ -3,11 +3,9 @@ import { Text, View, Picker, TextInput } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import NewsCard from "../Components/NewsCard";
 import { connect } from "react-redux";
-import { NewsAPI } from "../js/NewsAPI";
 import styled from "styled-components";
 import Paises from "../Models/paises";
 
-const newsAPI = new NewsAPI();
 const paises = Paises();
 
 const CountryPicker = styled.Picker`
@@ -41,50 +39,43 @@ const MenuView = styled.View`
   border-bottom-right-radius: 5px;
 `;
 
-
 /**
  * Takes the query and fetches the getTop from NewsAPI.
- * @param {String} query 
- * @param {*} props 
+ * @param {String} query
+ * @param {*} props
  */
 const _handleSelectChange = async (query, props) => {
-  let newList = await newsAPI.getTop(query);
-  console.log(newList);
-  props.dispatch({ type: "update/top", items: newList });
+  props.dispatch({ type: "update/top", query: query });
 };
-
 
 /**
  * Fetches the Favorited Articles list from Redux and shows it.
- * @param {*} props 
+ * @param {*} props
  */
 const _handleFavClick = (props) => {
-  props.dispatch({type: 'select/fav'})
-}
+  props.dispatch({ type: "select/fav" });
+};
 
 /**
  * Takes the query and fetches the getAll from newsAPI.
- * @param {String} query 
- * @param {*} props 
+ * @param {String} query
+ * @param {*} props
  */
 const _handleSearchInput = async (query, props) => {
-  let newList = await newsAPI.getAll(query);
-  props.dispatch({ type: "update/all", items: newList });
+  props.dispatch({ type: "update/all", query: query });
 };
-
 
 /**
  * The first fetch it gets the default from getTop, Brazil.
- * @param {*} props 
+ * @param {*} props
  */
 const populateReducer = async (props) => {
-  let newList = await newsAPI.getTop();
-  props.dispatch({ type: "update/items", items: newList });
+  props.dispatch({ type: "update/default" });
 };
 
 /**
  * It render the card based on the Item(News) that is passed to it.
- * @param {News} item 
+ * @param {News} item
  */
 const cardRenderer = ({ item }) => <NewsCard article={item} />;
 
@@ -110,10 +101,10 @@ function NewsView(props) {
           placeholder="Search..."
         ></InputQuery>
         <FavButton
-          title='Favoritos'
-          color='red'
+          title="Favoritos"
+          color="red"
           onPress={() => {
-              _handleFavClick(props);
+            _handleFavClick(props);
           }}
         ></FavButton>
         <CountryPicker
@@ -136,7 +127,7 @@ function NewsView(props) {
         </CountryPicker>
       </MenuView>
       <FlatList
-      contentContainerStyle={{ paddingBottom: 45}}
+        contentContainerStyle={{ paddingBottom: 45 }}
         data={props.items}
         renderItem={cardRenderer}
         keyExtractor={(item) => {

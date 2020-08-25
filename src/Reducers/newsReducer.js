@@ -12,44 +12,53 @@ export default function reducer(
   action
 ) {
   switch (action.type) {
-    case 'select/fav':
-      favList = [...state.fav]
-      return{
+    case "select/fav":
+      favList = [...state.fav];
+      return {
         ...state,
-        items: favList
-      }
-    case 'update/top':
+        items: favList,
+      };
+    case "update/top":
       newList = action.items;
       return {
         ...state,
         items: newList,
-        route: '/top',
-        loaded: true
-      }
-    case 'update/all':
+        route: "/top",
+      };
+    case "update/all":
       newList = action.items;
-      return{
+      return {
         ...state,
         items: newList,
-        route: '/all',
-        loaded: true
-      }
-    case "update/items":
+        route: "/all",
+      };
+    case "update/default":
       newList = action.items;
       return {
         ...state,
         items: newList,
         route: "default",
         query: "none",
-        loaded: true
       };
-      case "add/fav":
+    case "add/fav":
       favList = [...state.fav];
       favList.push(action.item);
       return {
         ...state,
-        fav: favList
-      }
+        fav: favList,
+      };
+    case "fetch/success":
+      console.log(action.items);
+      return {
+        ...state,
+        items: action.items,
+        loaded: true,
+      };
+    case "fetch/error":
+      return {
+        ...state,
+        loaded: false,
+      };
     default:
       return state;
   }
