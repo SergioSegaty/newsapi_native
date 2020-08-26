@@ -45,7 +45,14 @@ const MenuView = styled.View`
  * @param {*} props
  */
 const _handleSelectChange = async (query, props) => {
+  if(query === 'none'){
+    return
+  }
   props.dispatch({ type: "update/top", query: query });
+};
+
+_createId = async () => {
+  return await nanoid();
 };
 
 /**
@@ -53,7 +60,7 @@ const _handleSelectChange = async (query, props) => {
  * @param {*} props
  */
 const _handleFavClick = (props) => {
-  props.dispatch({ type: "select/fav" });
+  props.dispatch({ type: "select/fav", route: '/fav' });
 };
 
 /**
@@ -62,7 +69,9 @@ const _handleFavClick = (props) => {
  * @param {*} props
  */
 const _handleSearchInput = async (query, props) => {
-  props.dispatch({ type: "update/all", query: query });
+  if (query || query.length > 0) {
+    props.dispatch({ type: "update/all", query: query });
+  }
 };
 
 /**
@@ -80,7 +89,7 @@ const populateReducer = async (props) => {
 const cardRenderer = ({ item }) => <NewsCard article={item} />;
 
 function NewsView(props) {
-  const [selectedValue, setSelectedValue] = useState("br");
+  const [selectedValue, setSelectedValue] = useState("default");
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
@@ -96,6 +105,7 @@ function NewsView(props) {
           onChangeText={(text) => setSearchInput(text)}
           onSubmitEditing={() => {
             _handleSearchInput(searchInput, props);
+            setSelectedValue("default");
           }}
           value={searchInput}
           placeholder="Search..."
@@ -105,6 +115,7 @@ function NewsView(props) {
           color="red"
           onPress={() => {
             _handleFavClick(props);
+            setSelectedValue("default");
           }}
         ></FavButton>
         <CountryPicker
@@ -115,6 +126,8 @@ function NewsView(props) {
           }}
           itemStyle={{ backgrondColor: "white", color: "blue" }}
         >
+          <Picker.Item label="Escolha" value={"none"} key="default" />
+
           {paises.map((pais) => {
             return (
               <Picker.Item
@@ -130,9 +143,7 @@ function NewsView(props) {
         contentContainerStyle={{ paddingBottom: 45 }}
         data={props.items}
         renderItem={cardRenderer}
-        keyExtractor={(item) => {
-          return item.url;
-        }}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

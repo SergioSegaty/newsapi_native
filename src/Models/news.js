@@ -9,7 +9,8 @@ export default class News {
         this.publishedAt = this.cleanDate(article.publishedAt);
         this.content = article.content;
         this.favorited = false;
-
+        this.id = (Math.random() * 10).toString();
+        
         this.validation()
     }
 

@@ -3,7 +3,7 @@ import { NewsAPI } from "./NewsAPI";
 
 const newsAPI = new NewsAPI();
 
-function* fetchDefault(action) {
+function* fetchDefault() {
   try {
     const newsList = yield call(newsAPI.getTop);
     yield put({ type: "fetch/success", items: newsList });
@@ -15,7 +15,7 @@ function* fetchDefault(action) {
 function* fetchTop(action) {
   try {
     const newsList = yield call(newsAPI.getTop, action.query);
-    yield put({ type: "fetch/success", items: newsList });
+    yield put({ type: "fetch/success", items: newsList, route: '/top' });
   } catch (e) {
     yield put({ type: "fetch/error", message: e.message });
   }
@@ -23,8 +23,8 @@ function* fetchTop(action) {
 
 function* fecthAll(action) {
   try {
-    const newsList = yield call(newsAPI.getAll(action.query), action.items);
-    yield put({ type: "fetch/success", items: newsList });
+    const newsList = yield call(newsAPI.getAll, action.query);
+    yield put({ type: "fetch/success", items: newsList, route: '/all' });
   } catch (e) {
     yield put({ type: "fetch/error", message: e.message });
   }

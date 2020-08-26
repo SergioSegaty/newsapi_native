@@ -1,4 +1,3 @@
-let newList = [];
 let favList = [];
 
 export default function reducer(
@@ -13,36 +12,29 @@ export default function reducer(
 ) {
   switch (action.type) {
     case "select/fav":
-      favList = [...state.fav];
+      favList = [...state.fav].reverse();
       return {
         ...state,
         items: favList,
+        route: action.route,
       };
-    case "update/top":
-      newList = action.items;
+    case "delete/fav":
+      favList = [...state.fav].reverse();
+      let targetI = favList.indexOf(action.item);
+      favList.splice(targetI, 1);
       return {
         ...state,
-        items: newList,
-        route: "/top",
-      };
-    case "update/all":
-      newList = action.items;
-      return {
-        ...state,
-        items: newList,
-        route: "/all",
-      };
-    case "update/default":
-      newList = action.items;
-      return {
-        ...state,
-        items: newList,
-        route: "default",
-        query: "none",
-      };
+        items: favList,
+        fav: favList
+      }
     case "add/fav":
       favList = [...state.fav];
-      favList.push(action.item);
+      let isIncluded = favList.filter(x => x.url === action.item.url);
+      console.log(isIncluded);
+      if (isIncluded < 1) {
+        console.log('entrou no if');
+        favList.push(action.item);
+      }
       return {
         ...state,
         fav: favList,
@@ -52,6 +44,7 @@ export default function reducer(
         ...state,
         items: action.items,
         loaded: true,
+        route: action.route,
       };
     case "fetch/error":
       return {

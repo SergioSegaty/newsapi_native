@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, Linking, Alert } from "react-native";
+import { Text, View, Image, Linking, Alert, Button } from "react-native";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import News from "../Models/news";
@@ -97,9 +97,17 @@ const _handleRedirectClick = (url) => {
   Linking.openURL(url);
 };
 
+const _handleDeleteClick = (item, props) =>{
+  props.dispatch({type: 'delete/fav', item: item})
+}
+
 function NewsCard(props) {
   return (
     <Background>
+      {
+        props.route === '/fav' && 
+        <Button title='x' color='red' onPress={() => _handleDeleteClick(props.article, props)}/>
+      }
       <Title> {props.article.title} </Title>
       <Date>{props.article.publishedAt}</Date>
       <NewsPhoto
@@ -118,12 +126,12 @@ function NewsCard(props) {
         <ButtonFav
           onPress={() => _handleFavClick(props, props.article)}
           title="Favoritos"
-          color="#06113f"
+          color="red"
         ></ButtonFav>
         <ButtonRedirect
           onPress={() => _handleRedirectClick(props.article.url)}
           title="Redirect"
-          color="red"
+          color="#06113f"
         ></ButtonRedirect>
       </ViewButtons>
     </Background>
