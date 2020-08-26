@@ -131,7 +131,7 @@ function NewsCard(props) {
         <ButtonRedirect
           onPress={() => _handleRedirectClick(props.article.url)}
           title="Redirect"
-          color="#06113f"
+          color="blue"
         ></ButtonRedirect>
       </ViewButtons>
     </Background>
